@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 1: Create a Xamarin.Android project</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>AND101 Intro to Xamarin.Android</header>
+
+    <section id="main">
+        <h2>Exercise 1: Create a Xamarin.Android project</h2>
+<p>This exercise walks you through creating a new <strong>Xamarin.Android</strong> project. There is no code to write here; however, the instructions will point out a few key parts of the project after you have created it.</p>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+<ide name="vs">
+<img src="images/ex1-completed-windows.png" alt="Final application running on the Android Emulator" style="max-height: 500px;" />
+</ide>
+<ide name="xs">
+<img src="images/ex1-completed-macos.png" alt="Final application running on the Android Emulator" style="max-height: 500px;" />
+</ide>
+
+<hr>
+<h2>Create a new Xamarin.Android project</h2>
+<ide name="xs">
+<p>Create a new project using Visual Studio for Mac:</p>
+<ol>
+<li>Launch <strong>Visual Studio</strong> for Mac.</li>
+<li>Select <strong>File</strong> &gt; <strong>New Solution</strong>.</li>
+<li>Locate the <strong>Android</strong> &gt; <strong>App</strong> category.</li>
+<li>Choose the <strong>Android App</strong> template.</li>
+</ol>
+</ide>
+<ide name="vs">
+<p>Create a new project using Visual Studio for Windows:</p>
+<ol>
+<li>Launch <strong>Visual Studio</strong> for Windows.</li>
+<li>Select <strong>File</strong> &gt; <strong>New</strong> &gt; <strong>Project</strong>.</li>
+<li>Locate the <strong>Visual C#</strong> &gt; <strong>Android</strong> category.</li>
+<li>Choose the <strong>Android App</strong> template.</li>
+</ol>
+</ide>
+
+<hr>
+<h2>Choose your project name and location</h2>
+<ide name="xs">
+<ol>
+<li>Name the app <strong>TipCalculator</strong>.</li>
+<li>Choose a location for the project.</li>
+<li>Use the default values for all other project settings.</li>
+<li>Click <strong>Create</strong>.</li>
+</ol>
+</ide>
+<ide name="vs">
+<ol>
+<li>Name the app <strong>TipCalculator</strong>.</li>
+<li>Choose a location for the project.</li>
+<li>Select <strong>Single View App</strong> for the template.</li>
+<li>Use the default values for all other project settings.</li>
+<li>Click <strong>OK</strong>.</li>
+</ol>
+</ide>
+
+<hr>
+<h2>Run your application</h2>
+<ide name="xs">
+<ol>
+<li><strong>Run the app</strong> and spend a moment using it so you understand its behavior. The template code typically has a single button that displays the number of times it has been clicked.</li>
+</ol>
+<figure class="figure">
+<img src="images/ex1-completed-macos.png" alt="Running completed application" />
+</figure>
+</ide>
+<ide name="vs">
+<ol>
+<li><strong>Run the app</strong> and spend a moment using it so you understand its behavior. The template code typically has a single page with a title bar and menu button, a label, and a floating action button that will display a message when click.</li>
+</ol>
+<figure class="figure">
+<img src="images/ex1-completed-windows.png" alt="Running completed application" />
+</figure>
+</ide>
+
+<hr>
+<h2>Examine the button XML</h2>
+<p>Let's take a closer look at the code.</p>
+<ide name="xs">
+<ol>
+<li>Open the file <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> in the <strong>Source</strong> view. If you find you are in the Design view, click the Source tab at the bottom of the window.</li>
+<li><strong>Examine the XML that declares the Button</strong>. Note that the button has an <strong>id</strong> assigned to it.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>&lt;Button
+    android:id=&quot;@+id/myButton&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;@string/hello&quot; /&gt;
+</code></pre>
+
+</ide>
+<ide name="vs">
+<ol>
+<li>Open the file <strong>Resources</strong> &gt; <strong>layout</strong> &gt; <strong>activity_main.axml</strong> in the <strong>Source</strong> view. If you start in the Design view, click the Source tab at the bottom of the window.</li>
+<li><strong>Examine the XML that declares the Floating Action Button</strong>. Note that the button has an <strong>id</strong> assigned to it.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>&lt;android.support.design.widget.FloatingActionButton
+    android:id=&quot;@+id/fab&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_gravity=&quot;bottom|end&quot;
+    android:layout_margin=&quot;@dimen/fab_margin&quot;
+    app:srcCompat=&quot;@android:drawable/ic_dialog_email&quot; /&gt;
+</code></pre>
+
+</ide>
+
+<hr>
+<h2>View the main Activity</h2>
+<ide name="xs">
+<ol>
+<li>Open the file <strong>MainActivity.cs</strong>.</li>
+<li>The template generated an <em>Activity</em> for you. The <strong>Activity attribute</strong> for your <code>MainActivity</code> has <code>MainLauncher</code> set to <strong>true</strong> which makes this Activity your app's primary entry point.</li>
+<li>There are two things to note in <code>OnCreate</code>. <code>SetContentView</code> takes an identifier for an XML file (<strong>Resource.Layout.Main</strong>) as its argument and instantiates the UI. <code>FindViewById</code> takes an id and returns a reference to the view with that id. This is how the code gets access to the views in the UI.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>[Activity(Label = &quot;TipCalculator&quot;, MainLauncher = true, Icon = &quot;@mipmap/icon&quot;)]
+public class MainActivity : Activity
+{
+    int count = 1;
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+        // Set our view from the &quot;main&quot; layout resource
+        SetContentView(Resource.Layout.Main);
+
+        // Get our button from the layout resource,
+        // and attach an event to it
+        Button button = FindViewById&lt;Button&gt;(Resource.Id.myButton);
+
+        button.Click += delegate { button.Text = $&quot;{count++} clicks!&quot;; };
+    }
+}
+</code></pre>
+
+</ide>
+<ide name="vs">
+<ol>
+<li>Open the file <strong>MainActivity.cs</strong>.</li>
+<li>The template generated an <em>Activity</em> for you. The <strong>Activity attribute</strong> for your <code>MainActivity</code> has <code>MainLauncher</code> set to <strong>true</strong> which makes this Activity your app's primary entry point.</li>
+<li>There are two things to note in <code>OnCreate</code>. <code>SetContentView</code> takes an identifier for an XML file (<strong>Resource.Layout.activity_main</strong>) as its argument and instantiates the UI. <code>FindViewById</code> takes an id and returns a reference to the view with that id. This is how the code gets access to the views in the UI.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>[Activity(Label = &quot;@string/app_name&quot;, Theme = &quot;@style/AppTheme.NoActionBar&quot;, MainLauncher = true)]
+public class MainActivity : AppCompatActivity
+{
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+        SetContentView(Resource.Layout.activity_main);
+
+        Android.Support.V7.Widget.Toolbar toolbar = FindViewById&lt;Android.Support.V7.Widget.Toolbar&gt;(Resource.Id.toolbar);
+        SetSupportActionBar(toolbar);
+
+        FloatingActionButton fab = FindViewById&lt;FloatingActionButton&gt;(Resource.Id.fab);
+        fab.Click += FabOnClick;
+    }
+
+    public override bool OnCreateOptionsMenu(IMenu menu)
+    {
+        MenuInflater.Inflate(Resource.Menu.menu_main, menu);
+        return true;
+    }
+
+    public override bool OnOptionsItemSelected(IMenuItem item)
+    {
+        int id = item.ItemId;
+        if (id == Resource.Id.action_settings)
+        {
+            return true;
+        }
+
+        return base.OnOptionsItemSelected(item);
+    }
+
+    private void FabOnClick(object sender, EventArgs eventArgs)
+    {
+        View view = (View)sender;
+        Snackbar.Make(view, &quot;Replace with your own action&quot;, Snackbar.LengthLong)
+            .SetAction(&quot;Action&quot;, (Android.Views.View.IOnClickListener)null).Show();
+    }
+}
+</code></pre>
+
+</ide>
+
+<hr>
+<h2>Exercise summary</h2>
+<ide name="xs">
+In this exercise, you created a new Xamarin.Android application. Subsequent exercises will examine the code in more detail and expand it into a simple but functional app.
+</ide>
+<ide name="vs">
+In this exercise, you created a new Xamarin.Android application. Since the starting templates can differ between platforms, subsequent exercises will begin with a starter project that may differ slightly.
+</ide>
+<p>You can view the completed solution in the <strong>Exercise 1 &gt; Completed</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/AND101/">course materials</a>.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>

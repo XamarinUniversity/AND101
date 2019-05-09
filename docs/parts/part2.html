@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 2: Add views to a layout file manually and with the Designer tool</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>AND101 Intro to Xamarin.Android</header>
+
+    <section id="main">
+        <h2>Exercise 2: Add views to a layout file manually and with the Designer tool</h2>
+<p>This exercise has two goals: you will build part of your UI <strong>manually in XML</strong> and part of it using the <strong>Xamarin Android Designer</strong>. Both are useful skills. Understanding the raw XML can help you arrange your UI in exactly the way you want. Knowing how to use the Designer tool helps you build a UI more quickly than coding XML by hand.</p>
+<p>You will be working on an app to compute the tip for a restaurant bill. The user will enter the amount of the bill and touch the Calculate button. The app will retrieve the bill amount from the UI, calculate the tip and total, and display those two values in the UI. This exercise only covers creating the UI; the code for the calculations will be done in a subsequent exercise.</p>
+<p>The picture below shows the completed app with the UI you will be building in this exercise.</p>
+<figure class="figure">
+<img src="images/ex2-goal-app.png" alt="Completed exercise" />
+</figure>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+
+<hr>
+<h2>Open the solution</h2>
+<p>This exercise is a continuation of the previous exercise. You can use your existing solution or begin from the prior <strong>Exercise 1 &gt; Completed</strong> solution in your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/AND101/">course materials</a>.</p>
+
+<hr>
+<h2>Remove the template code</h2>
+<p>Some of the templates for Xamarin.Android display and interact with a button. We won't be using the default code. If the code is present, remove it by following the steps below.</p>
+<ol>
+<li>Open <strong>MainActivity.cs</strong>.</li>
+<li>Remove the <strong>count</strong> field and the code to locate the button and subscribe to the click event. When you are finished, the <code>MainActivity</code> class should match the code below.</li>
+</ol>
+<pre class="prettyprint"><code>[Activity(Label = &quot;TipCalculator&quot;, MainLauncher = true, Icon = &quot;@mipmap/icon&quot;)]
+public class MainActivity : Activity
+{
+   protected override void OnCreate(Bundle bundle)
+   {
+      base.OnCreate(bundle);
+      SetContentView(Resource.Layout.Main);
+   }
+}
+</code></pre>
+
+
+<hr>
+<h2>Remove the template button XML</h2>
+<p>Remove the <code>Button</code> from the layout for the Main Activity if it exists in your solution.</p>
+<ol>
+<li>Open the <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> file.</li>
+<li>Switch to the <strong>Source</strong> view: Opening <strong>Main.axml</strong> will likely open the Android designer, click on the <strong>Source</strong> tab to switch to the source view.</li>
+<li><strong>Delete</strong> the <code>Button</code> that was added by the starter template.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>&lt;Button
+    android:id=&quot;@+id/myButton&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;@string/hello&quot; /&gt;
+</code></pre>
+
+
+<hr>
+<h2>Set layout orientation</h2>
+<code>LinearLayout</code> defaults to horizontal orientation and we need it to be vertical. The template will likely have set up <code>LinearLayout</code> correctly; however, it is worth taking a moment to check to be sure.
+<ol>
+<li>Open the file <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> in the <strong>Source view</strong>. </li>
+<li>Verify that the root XML element is a <code>LinearLayout</code> and that its orientation is <strong>vertical</strong>. Make sure it uses <code>match_parent</code> for both the <strong>width</strong> and <strong>height</strong> (Note: <code>fill_parent</code> does the same thing but it is deprecated so <code>match_parent</code> is preferred). The XML is shown below.</li>
+</ol>
+<pre class="prettyprint"><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout
+  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+  android:orientation=&quot;vertical&quot;
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;match_parent&quot;&gt;
+  ...
+&lt;/LinearLayout&gt;
+</code></pre>
+
+
+<hr>
+<h2>Add an EditText</h2>
+<p>Recall that we are creating a <strong>TipCalculator</strong>. We'll start our UI by adding an input text field to allow the user to enter the bill amount.</p>
+<ol>
+<li>Add an <code>EditText</code> inside the <code>LinearLayout</code></li>
+<li>Set its <code>android:layout_width</code> attribute to <code>match_parent</code>.</li>
+<li>Set its <code>android:layout_height</code> attribute to <code>wrap_content</code>.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>&lt;EditText
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;wrap_content&quot; /&gt;
+</code></pre>
+
+
+<hr>
+<h2>Add a button</h2>
+<p>Next, we'll add a Button to perform the tip calculation.</p>
+<ol>
+<li>Add a <code>Button</code> inside the <code>LinearLayout</code> and below the <code>EditText</code>.</li>
+<li>Set its <code>android:layout_width</code> attribute to <code>match_parent</code>. </li>
+<li>Set its <code>android:layout_height</code> attribute to <code>wrap_content</code>.</li>
+<li>Set its <code>android:text</code> attribute to <strong>CALCULATE</strong>. </li>
+</ol>
+<pre class="prettyprint-collapse"><code>&lt;Button
+  android:layout_width=&quot;match_parent&quot;
+  android:layout_height=&quot;wrap_content&quot; 
+  android:text=&quot;CALCULATE&quot; /&gt;
+</code></pre>
+
+
+<hr>
+<h2>Open the Designer</h2>
+<p>Xamarin.Android includes a UI Designer that is integrated into Visual Studio. The goal of the next few steps is to use the Designer to build the lower part of the UI shown below. Specifically, you will add the four <code>TextView</code>s and the two <code>LinearLayout</code> objects that manage the text.</p>
+<figure class="figure">
+<img src="images/ex2-completed-ui.png" alt="Screenshot of completed TipCalculator UI highlighting four TextView elements split equally into two horizontal LinearLayout elements." title="The layout design" />
+<figcaption class="figure-caption">The layout design</figcaption>
+</figure>
+<p>Open the Designer:</p>
+<ide name="xs">
+<ol>
+<li>Right-click on the <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> file</li>
+<li>Choose <strong>Open With</strong></li>
+<li>Select <strong>Layout Editor</strong></li>
+</ol>
+</ide>
+<ide name="vs">
+<ol>
+<li>Right-click on the <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> file</li>
+<li>Choose <strong>Open With...</strong></li>
+<li>Select <strong>Android Layout file</strong></li>
+<li>Click <strong>OK</strong></li>
+</ol>
+</ide>
+<blockquote class="info-quote">To learn more about the Designer, see <a href="https://developer.xamarin.com/guides/android/user_interface/designer_overview/part_1_-_designer_basics/" target="_blank">Designer Basics</a>. 
+</blockquote>
+
+<hr>
+<h2>Add LinearLayouts</h2>
+<p>Here you add the two <code>LinearLayout</code>s that will manage the four <code>TextView</code>s that display the tip and total.</p>
+<ol>
+<li>
+Drag a <code>LinearLayout</code> (Horizontal) from the Layouts section of the <strong>Toolbox</strong> and <strong>drop it at the bottom of the existing views</strong> in your UI (i.e. below the button). This will add a <code>LinearLayout</code> to the root layout. 
+</li>
+<li>
+Repeat the above step to add a second <code>LinearLayout</code> (Horizontal) below the first one.
+</li>
+</ol>
+<ide name="vs">
+<img src="images/ex2-LinearLayoutHorizontal-vs.png" alt="Visual Studio for Windows Android Designer" />
+</ide>
+<ide name="xs">
+<img src="images/ex2-LinearLayoutHorizontal-xs.png" alt="Visual Studio for macOS Android Designer" />
+</ide>
+
+<hr>
+<h2>Add TextViews</h2>
+<p>Here, you will add four <code>TextView</code> controls to display the tip and total amounts. Two <code>TextView</code>s will go inside each of the horizontal <code>LinearLayout</code>s you added in the previous step. Two of the <code>TextView</code>s will display static text and two will have their text set dynamically from code.</p>
+<p>The Toolbox with the correct view highlighted is shown below.</p>
+<figure class="figure">
+<img src="images/ex2-textView.png" alt="TextView in the Toolbox" />
+</figure>
+<ol>
+<li>Drag a <code>TextView</code> from the the <strong>Form Widgets</strong> section of the Toolbox and drop it on the <strong>first</strong> horizontal <code>LinearLayout</code>.</li>
+<li>Repeat the previous step.</li>
+<li>Drag a <code>TextView</code> from the Toolbox and drop it on the <strong>second</strong> horizontal <code>LinearLayout</code>.</li>
+<li>Repeat the previous step.</li>
+</ol>
+
+<hr>
+<h2>Edit properties</h2>
+<p>The goal here is to use the Designer's <strong>Properties</strong> window to set the text in two of the <code>TextView</code>s (see below).</p>
+<figure class="figure">
+<img src="images/ex2-settext.png" alt="Setting the Text" />
+</figure>
+<ol>
+<li>Select the leftmost <code>TextView</code> in the top horizontal <code>LinearLayout</code>.</li>
+<li>In the <strong>Properties</strong> window, locate the <strong>Text</strong> property and set it to <strong>Tip</strong>.</li>
+<li>Repeat the previous two steps to set the text of the lower-left <code>TextView</code> to <strong>Total</strong>.</li>
+</ol>
+<p>An example of the Properties window with the correct property highlighted and the value filled in is shown below.</p>
+<figure class="figure">
+<img src="images/ex2-tip.png" alt="Android view properties" />
+</figure>
+
+<hr>
+<h2>Check your AXML UI</h2>
+<ol>
+<li>Switch to the <strong>Source</strong> view and check your work. Verify that the structure you built matches the XML shown below.</li>
+</ol>
+<pre class="prettyprint"><code>&lt;LinearLayout ... &gt;
+
+    &lt;EditText
+        android:layout_width =&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot; /&gt;
+
+    &lt;Button
+        android:layout_width =&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;
+        android:text =&quot;CALCULATE&quot; /&gt;
+
+    &lt;LinearLayout
+        android:layout_width =&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+        &lt;TextView
+            android:text =&quot;Tip&quot;
+            android:layout_width =&quot;wrap_content&quot;
+            android:layout_height=&quot;wrap_content&quot; /&gt;
+        &lt;TextView
+            android:layout_width =&quot;match_parent&quot;
+            android:layout_height=&quot;wrap_content&quot; /&gt;
+    &lt;/LinearLayout&gt;
+
+    &lt;LinearLayout
+        android:layout_width =&quot;match_parent&quot;
+        android:layout_height=&quot;wrap_content&quot;&gt;
+        &lt;TextView
+            android:text =&quot;Total&quot;
+            android:layout_width =&quot;wrap_content&quot;
+            android:layout_height=&quot;match_parent&quot; /&gt;
+        &lt;TextView
+            android:layout_width =&quot;wrap_content&quot;
+            android:layout_height=&quot;match_parent&quot; /&gt;
+    &lt;/LinearLayout&gt;
+
+&lt;/LinearLayout&gt;
+</code></pre>
+
+
+<hr>
+<h2>Run the app</h2>
+<p>Run the Tip Calculator app, you should see the UI you just defined. It won't have any behavior yet; however, running it at this point will allow you to check for syntax errors and ensure that the UI looks reasonable on the emulator.</p>
+<figure class="figure">
+<img src="images/ex2-completed-app.png" alt="Completed Tip Calculator App" />
+</figure>
+
+<hr>
+<h2>Exercise summary</h2>
+<p>In this exercise, you built the UI of a Xamarin.Android application using both hand-coded XML and the Xamarin Android Designer. Both skills are useful. In practice, it's likely you will flip back-and-forth between them as you create your UI.</p>
+<p>You can view the completed solution in the <strong>Exercise 2 &gt; Completed</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/AND101/">course materials</a>.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>
