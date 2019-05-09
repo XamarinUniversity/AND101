@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 3: Implement an Activity's behavior and run your app in an emulator</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>AND101 Intro to Xamarin.Android</header>
+
+    <section id="main">
+        <h2>Exercise 3: Implement an Activity's behavior and run your app in an emulator</h2>
+<p>The goal of this exercise is to write C# code to access and manipulate the UI of an Activity. Your code will need to read/write the properties on several text controls and subscribe to an event on a button. To do this, you will need to assign IDs to some of the views in the XML and lookup the views by ID in the code.</p>
+<p>You will be continuing to work on the TipCalculator app. The picture below shows the UI. The two <code>TextView</code>s that display the words &quot;Tip&quot; and &quot;Total&quot; are static and you won't need to access them. All the other views will need to be accessed from code: the <code>EditText</code> so you can read the amount of the bill, the <code>Button</code> so you can subscribe to its Click event, and the other two <code>TextView</code>s so you can display the values you calculate for the tip and total.</p>
+<figure class="figure">
+<img src="./images/ex3-completed.png" alt="Completed Tip Calculator" />
+</figure>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+
+<hr>
+<h2>Open the solution</h2>
+<p>This exercise is a continuation of the previous exercise. You can use your existing solution or begin from the prior <strong>Exercise 2 &gt; Completed</strong> solution in your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/AND101/">course materials</a>.</p>
+
+<hr>
+<h2>Add IDs to your views</h2>
+<p>Here, you will add IDs to several of your UI views so you can access them from code.</p>
+<ol>
+<li>Open the file <strong>Resource</strong> &gt; <strong>Layout</strong> &gt; <strong>Main.axml</strong> in the <strong>Source</strong> view.</li>
+<li>Add an <strong>ID</strong> to the <code>EditText</code>. The XML is shown below. The &quot;<code>@+id</code>&quot; characters indicate that you want to create a new <strong>ID</strong> value. The text after the forward slash is the value for the <strong>ID</strong>.</li>
+</ol>
+<pre class="prettyprint"><code>&lt;EditText
+  android:id=&quot;@+id/inputBill&quot;
+  ... /&gt;
+</code></pre>
+
+<ol start="3">
+<li>Add an <strong>ID</strong> of <code>calculateButton</code> to the <code>Button</code>.</li>
+<li>Add an <strong>ID</strong> of <code>outputTip</code> to the second <code>TextView</code> inside the first of the two horizontal <code>LinearLayout</code>s.</li>
+<li>Add an <strong>ID</strong> of <code>outputTotal</code> to the second <code>TextView</code> inside the second of the two horizontal <code>LinearLayout</code>s.</li>
+</ol>
+<pre class="prettyprint-collapse"><code> &lt;Button
+    android:id=&quot;@+id/calculateButton&quot;
+    ... /&gt;
+
+ &lt;TextView
+    android:id=&quot;@+id/outputTip&quot;
+    ... /&gt;
+
+&lt;TextView
+    android:id=&quot;@+id/outputTotal&quot;
+    ... /&gt;
+</code></pre>
+
+
+<hr>
+<h2>Look-up views in code</h2>
+<p>Next, use the IDs to lookup views in code. You will store the references in fields inside your <code>Activity</code> class.</p>
+<ol>
+<li>
+Open <strong>MainActivity.cs</strong>.
+</li>
+<li>
+<strong>Add four fields</strong> to the <code>MainActivity class</code>, one for each of the four views to which you added IDs (i.e. an <code>EditText</code>, a <code>Button</code>, and two <code>TextView</code>s).
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>EditText inputBill;
+Button calculateButton;
+TextView outputTip;
+TextView outputTotal;
+</code></pre>
+
+<ol start="3">
+<li>Inside <code>OnCreate</code>, use the <code>FindViewById</code> method to lookup each of the four views and assign the returned references to the corresponding fields. Be sure to place your lookup code after the call to <code>SetContentView</code>; the views you are trying to access are created in <code>SetContentView</code> so they don't exist until after that call completes.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>protected override void OnCreate(Bundle bundle)
+{
+   base.OnCreate(bundle);
+   SetContentView(Resource.Layout.Main);
+
+   inputBill = FindViewById&lt;EditText&gt;(Resource.Id.inputBill);
+   ...
+}
+</code></pre>
+
+<blockquote class="info-quote">Note: When typing this code by hand, make sure to use the <code>Resource</code> (singular) namespace instead of <code>Resources</code>, or you won't be able to find the <code>Id</code> members for your app.
+</blockquote>
+
+<hr>
+<h2>Subscribe to an event</h2>
+<p>Recall that we need to respond when the user taps the <strong>Calculate</strong> button - that will be our signal that the user has entered the amount of their bill and is ready for us to calculate the tip and total.</p>
+<ol>
+<li>Inside <code>OnCreate</code>, subscribe a handler to the button's <code>Click</code> event. The <code>Click</code> event uses the standard .NET event pattern so the handler will have an <code>object</code> parameter and an <code>EventArgs</code> parameter.</li>
+</ol>
+<pre class="prettyprint-collapse"><code>using System;
+...
+
+protected override void OnCreate(Bundle bundle)
+{
+   ...
+   calculateButton = FindViewById&lt;Button&gt;(Resource.Id.calculateButton);
+   calculateButton.Click += OnCalculateClick;
+}
+
+void OnCalculateClick(object sender, EventArgs e)
+{
+  ...
+}
+</code></pre>
+
+
+<hr>
+<h2>Retrieve user input</h2>
+<ol>
+<li>
+In your handler for the <code>Button</code>'s <code>Click</code> event, retrieve the <code>Text</code> from the <code>EditText</code>. This will be the amount of the bill. Store it in a local variable of type <code>string</code>.
+</li>
+<li>
+Convert the bill input from a <code>string</code> to a <code>double</code>. Store the result in a local variable. You can include error checking if you would like to; however, the solution will omit it in order to keep the code focused on the key techniques.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>void OnCalculateClick(object sender, EventArgs e)
+{
+   string text = inputBill.Text;
+   var bill = double.Parse(text);
+   ...
+}
+</code></pre>
+
+
+<hr>
+<h2>Compute the results</h2>
+<p>Continue working in the <code>Click</code> event handler for the <strong>Calculate</strong> button.</p>
+<ol>
+<li>
+Compute a 15% tip for the bill and store it in a local variable.
+</li>
+<li>
+Compute the total payment (original bill + tip) and store it in a local variable.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>void OnCalculateClick(object sender, EventArgs e)
+{
+   string text = inputBill.Text;
+   var bill = double.Parse(text);
+
+   var tip = bill * 0.15;
+   var total = bill + tip;
+   ...
+}
+</code></pre>
+
+
+<hr>
+<h2>Display the results</h2>
+<ol>
+<li>
+Load the tip amount into the <code>Text</code> property of the <code>TextView</code> intended to display the tip. Your tip amount should be in a variable of type <code>double</code> so you can use its <code>ToString</code> method to convert it into a string so you can assign it to the <code>Text</code> property of the <code>TextView</code>.
+</li>
+<li>
+Load the total payment into the <code>Text</code> property of the <code>TextView</code> intended to display the total.
+</li>
+</ol>
+<pre class="prettyprint-collapse"><code>void OnCalculateClick(object sender, EventArgs e)
+{
+    string text = inputBill.Text;
+    var bill = double.Parse(text);
+    var tip = bill * 0.15;
+    var total = bill + tip;
+
+    outputTip.Text = tip.ToString();
+    outputTotal.Text = total.ToString();
+}
+</code></pre>
+
+
+<hr>
+<h2>Adjust the margin</h2>
+<p>Currently, the text labels &quot;Tip&quot; and &quot;Total&quot; do not have any space between them and the result values to their right. You can adjust this by including a layout margin setting on these <code>TextView</code>s. Margin adds space around the outside of a view. There are several options for margin - we will only use the variant that adds space to the right side.</p>
+<ol>
+<li>Add the attribute setting shown below to the <code>TextView</code> displaying the text &quot;Tip&quot;.</li>
+</ol>
+<pre class="prettyprint"><code>android:layout_marginRight=&quot;20dp&quot;
+</code></pre>
+
+<ol start="2">
+<li>Repeat the previous step for the <code>TextView</code> displaying the text &quot;Total&quot;. </li>
+</ol>
+
+<hr>
+<h2>Run the app</h2>
+<ol>
+<li>Run the app to test your work. The image below shows an example of the expected output.</li>
+</ol>
+<figure class="figure">
+<img src="images/ex3-completed.png" alt="Running the completed Android app" />
+</figure>
+
+<hr>
+<h2>Exercise summary</h2>
+<p>In this exercise, you implemented the behavior for an Activity. The key technique was assigning IDs to your views in XML and then using the IDs to lookup the views from code. This lets you write code that manipulates your Activity's UI.</p>
+<p>You can view the completed solution in the <strong>Exercise 3 &gt; Completed</strong> folder of your copy of the cloned or downloaded <a href="https://github.com/XamarinUniversity/AND101/">course materials</a>.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>

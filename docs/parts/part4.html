@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=US-ASCII">
+    <title>Exercise 4: Update tools and SDK platform</title>
+    <link rel="stylesheet" type="text/css" href="./res/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="./res/styles/prettify.css" />
+    <link rel="stylesheet" type="text/css" href="./res/styles/styles.css">
+</head>
+
+<body>
+    <!-- Use the same title as the StartHere -->
+    <header>AND101 Intro to Xamarin.Android</header>
+
+    <section id="main">
+        <h2>Exercise 4: Update tools and SDK platform</h2>
+<p>The goal of this exercise is to use the Android SDK Manager to install the latest version of the Android SDK on your development machine.</p>
+<p>Many of the build tools and APIs you use will either update automatically or notify you when an update is available. That's not the case for the Android SDK. This exercise shows you the manual steps you will need to follow to keep your installation up-to-date.</p>
+<p>There is no code to write here nor is a Xamarin.Android solution required.</p>
+<blockquote class="info-quote">To complete the exercise, you will need <a href="https://www.visualstudio.com/" target="_blank">Visual Studio for Windows or macOS</a> with the <a href="https://visualstudio.microsoft.com/xamarin/" target="_blank">Xamarin development tools</a> installed. You will also need either an emulator/simulator or a device to run the exercise on. Please see the <a href="https://docs.microsoft.com/xamarin/cross-platform/get-started/installation/" target="_blank">setup page</a> if you need help installing the Xamarin development environment.
+</blockquote>
+
+<hr>
+<h2>Open the SDK Manager</h2>
+<ide name="xs">
+<ol>
+<li>Launch Visual Studio for Mac.</li>
+<li>Open the Android SDK Manager using the <strong>Tools</strong> &gt; <strong>SDK Manager</strong> menu option.</li>
+</ol>
+<figure class="figure">
+<img src="images/sdk-mac.png" alt="Android SDK Manager on macOS" />
+</figure>
+</ide>
+<ide name="vs">
+<ol>
+<li>Launch Visual Studio for Windows.</li>
+<li>Open the Android SDK Manager using the <strong>Tools</strong> &gt; <strong>Android</strong> &gt; <strong>Android SDK Manager</strong> menu option.</li>
+</ol>
+<blockquote class="danger-quote">Launching the SDK Manager from Visual Studio for Windows may require that Visual Studio is running with administrator privileges.
+</blockquote>
+<figure class="figure">
+<img src="images/sdk-vs.png" alt="Android SDK Manager on Windows" />
+</figure>
+</ide>
+
+<hr>
+<h2>Update the tools</h2>
+<ol>
+<li>Update the <strong>Android SDK Tools</strong>, <strong>Android SDK Platform-tools</strong>, and the <strong>Android SDK Build-tools</strong> to the latest versions. The image below highlights the three entries you should update. </li>
+</ol>
+<blockquote>
+<strong>Note</strong>: the versions you install may be more recent than the ones shown in the image.
+</blockquote>
+<figure class="figure">
+<img src="images/tools.png" alt="Updating the Android SDK" />
+</figure>
+
+<hr>
+<h2>Install the latest SDK platform</h2>
+<ol>
+<li>Install the latest release version of the SDK platform.</li>
+</ol>
+<blockquote>
+<strong>Note</strong>: the version you install may be more recent than the one shown in the image.
+</blockquote>
+<p>The image below highlights an example of this.</p>
+<blockquote class="danger-quote"><strong>Warning</strong>: it is not recommended to use beta SDK platform releases.
+</blockquote>
+<figure class="figure">
+<img src="images/Platform.png" alt="Updating the Android SDK" />
+</figure>
+
+<hr>
+<h2>Exercise summary</h2>
+<p>In this exercise, you updated your Android SDK. This is something that you will need to do periodically and you need to do it manually. At the present time, there is no notification when new versions are available nor is there any auto-update mechanism available. Most developers tend to check for updates at least once a month.</p>
+
+
+        <div class="align-right">
+            <a href="../StartHere.html">Go Back</a>
+        </div>
+
+    </section>
+
+    <script src="./res/js/jquery.min.js"></script>
+    <script src="./res/js/jquery.imagemapster.min.js"></script>
+    <script src="./res/js/imagemap.js"></script>
+    <script src="./res/js/prettify.js"></script>
+    <script src="./res/js/script.js"></script>
+
+    <footer>Copyright (C) 2018 Xamarin Inc., Microsoft. All rights reserved.<br><a target="_blank" href="http://university.xamarin.com">Visit Xamarin University for more classes and content</a></footer>
+
+</body>
+</html>
