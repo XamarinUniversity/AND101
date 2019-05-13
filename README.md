@@ -1,10 +1,10 @@
 # AND101 - Introduction to Xamarin.Android
 
-This repository contains exercises for the Xamarin University **AND101 - Introduction to Xamarin.Android** training course materials. This course is now retired and this content is no longer being actively maintained.
+This repository contains exercises for the Xamarin University **AND101 - Introduction to Xamarin.Android** training course materials. This course is retired and not being updated.
 
-All the Xamarin University courses are currently retired. For up-to-date Xamarin training, you can start earning badges taking the latest [Microsoft Learn modules about Xamarin](https://aka.ms/learn-xamarin).
+For the latest free Xamarin training, head over to [Microsoft Learn](https://aka.ms/learn-xamarin).
 
 ## Course materials
 
-* [Course recording](https://youtu.be/TAxwgCBMnr8)
+* [Course video](https://youtu.be/TAxwgCBMnr8)
 * [Exercise instructions](https://XamarinUniversity.github.io/AND101/)
